@@ -21,5 +21,12 @@ class Recetas with ChangeNotifier {
     ),
   ];
 
-  List<Receta> get recetas => [..._recetas];
+  //retorna una copia de _recetas
+  List<Receta> get recetas {
+    print('Recetas $_recetas');
+    return [..._recetas];
+  }
+
+  //retorna el total de recetas
+  int get totalRecetas => _recetas.length;
 }
