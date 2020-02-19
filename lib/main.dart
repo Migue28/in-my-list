@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:in_my_list/screens/recetas-screen.dart';
+import 'package:provider/provider.dart';
 
-import './screens/lista-compras.dart';
+import './screens/lista-compras-screen.dart';
+import './screens/control-screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +17,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         accentColor: Colors.purple,
       ),
-      home: ListaCompras(),
+      home: ControlScreen(),
+      routes: {
+        RecetasScreen.routeName: (context) => RecetasScreen(),
+      },
     );
   }
 }
