@@ -6,20 +6,19 @@ import '../providers/recetas.dart';
 class RecetaItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Provider.of<Recetas>(context, listen: false);
+    //final recetas = Provider.of<Recetas>(context, listen: false).recetas;
 
     return Card(
       margin: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 3,
+        vertical: 15,
+        horizontal: 5,
       ),
       child: Padding(
         padding: EdgeInsets.all(8),
         child: ListTile(
-          title: Consumer<Recetas>(
-            builder: (_, receta, __) => Text(receta.nombre),
-          ),
+          title: Text(''),
           trailing: Icon(Icons.expand_more),
+          onTap: () {},
         ),
       ),
     );

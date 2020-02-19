@@ -27,9 +27,35 @@ class ControlScreenState extends State<ControlScreen> {
     });
   }
 
+  selectedOptionText() {
+    String title;
+
+    switch (_selectedIndex) {
+      case 0:
+        title = 'Lista de Compras';
+        break;
+      case 1:
+        title = 'Recetas';
+        break;
+      case 2:
+        title = 'Crear Recetas';
+        break;
+      case 3:
+        title = 'Compras Anteriores';
+        break;
+    }
+
+    return title;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          selectedOptionText(),
+        ),
+      ),
       body: _widgetOption.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[

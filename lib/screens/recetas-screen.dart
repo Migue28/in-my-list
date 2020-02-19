@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/draw-bottom-nav-bar.dart';
 import '../widgets/receta-item.dart';
 
 class RecetasScreen extends StatelessWidget {

@@ -1,13 +1,25 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-import '../providers/ingredientes.dart';
+import '../models/ingrediente.dart';
+import '../models/receta.dart';
 
-class Recetas {
-  @required
-  String nombre;
-  String imagen;
-  List<Ingredientes> ingredientes;
-  String procedimiento;
+class Recetas with ChangeNotifier {
+  List<Receta> _recetas = [
+    Receta(
+      nombre: 'Arroz con pollo',
+      ingredientes: [
+        Ingrediente(nombre: 'Arroz', cantidad: 2),
+        Ingrediente(nombre: 'Pollo', cantidad: 1),
+      ],
+    ),
+    Receta(
+      nombre: 'Pollo asado',
+      ingredientes: [],
+      procedimiento: '',
+      imagen: '',
+    ),
+  ];
 
-  Recetas({this.nombre, this.imagen, this.ingredientes, this.procedimiento});
+  List<Receta> get recetas => [..._recetas];
 }
