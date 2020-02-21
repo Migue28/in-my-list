@@ -16,16 +16,12 @@ class _RecetasScreenState extends State<RecetasScreen> {
   Widget build(BuildContext context) {
     final recetasData = Provider.of<Recetas>(context, listen: false);
 
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          
-          ListView.builder(
-            itemCount: recetasData.totalRecetas,
-            itemBuilder: (context, i) =>
-                RecetaItem(recetasData.recetas[i].nombre),
-          ),
-        ],
+    return ListView.builder(
+      itemCount: recetasData.recetas.length,
+      itemBuilder: (context, i) => RecetaItem(
+        nombre: recetasData.recetas[i].nombre,
+        cantidadIngredientes:
+            recetasData.cantidadIngredientes(recetasData.recetas[i].id),
       ),
     );
   }

@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/recetas.dart';
 
 class RecetaItem extends StatelessWidget {
   final String nombre;
+  final int cantidadIngredientes;
 
-  RecetaItem(this.nombre);
+  RecetaItem({this.nombre, this.cantidadIngredientes});
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       margin: EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 5,
+        vertical: 5,
+        horizontal: 15,
       ),
       child: Padding(
         padding: EdgeInsets.all(8),
         child: ListTile(
+          leading: CircleAvatar(),
           title: Text(nombre),
+          subtitle: Text('Ingredientes: $cantidadIngredientes'),
           trailing: Icon(Icons.expand_more),
           onTap: () {},
         ),
