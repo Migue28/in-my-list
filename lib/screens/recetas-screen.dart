@@ -6,6 +6,7 @@ import '../providers/recetas.dart';
 
 class RecetasScreen extends StatefulWidget {
   static const routeName = '/recetas';
+  const RecetasScreen({Key key}) : super(key: key);
 
   @override
   _RecetasScreenState createState() => _RecetasScreenState();

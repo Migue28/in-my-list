@@ -55,7 +55,9 @@ class Recetas with ChangeNotifier {
   //retorna el total de recetas
   int get totalRecetas => _recetas.length;
 
+  //retorna la cantidad de ingredientes de cada receta
   int cantidadIngredientes(String id) {
+    
     int cantidad = 0;
     int index;
 

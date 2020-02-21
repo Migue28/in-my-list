@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/lista-compras-screen.dart';
 import '../screens/recetas-screen.dart';
 import '../screens/crear-recetas-screen.dart';
-import '../screens/compras-screen.dart';
+import '../screens/compras-anteriores-screen.dart';
 
 class ControlScreen extends StatefulWidget {
   @override
@@ -12,10 +12,18 @@ class ControlScreen extends StatefulWidget {
 
 class ControlScreenState extends State<ControlScreen> {
   List<Widget> _widgetOption = [
-    ListaComprasScreen(),
-    RecetasScreen(),
-    CrearRecetasScreen(),
-    ComprasAnterioresScreen(),
+    ListaComprasScreen(
+      key: PageStorageKey('Lista de Compras'),
+    ),
+    RecetasScreen(
+      key: PageStorageKey('Recetas'),
+    ),
+    CrearRecetasScreen(
+      key: PageStorageKey('Crear recetas'),
+    ),
+    ComprasAnterioresScreen(
+      key: PageStorageKey('Compras anteriores'),
+    ),
   ];
 
   int _selectedIndex = 0;

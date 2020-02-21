@@ -8,6 +8,7 @@ class RecetaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Rectángulo que tiene las recetas
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: 5,
