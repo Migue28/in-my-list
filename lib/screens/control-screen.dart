@@ -65,6 +65,10 @@ class ControlScreenState extends State<ControlScreen> {
         title: Text(
           selectedOptionText(),
         ),
+        actions: <Widget>[
+          if (_widgetOption[_selectedIndex] == _widgetOption[2])
+            Icon(Icons.save)
+        ],
       ),
       body: PageStorage(
         child: _widgetOption[_selectedIndex],

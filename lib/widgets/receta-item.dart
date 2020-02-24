@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class RecetaItem extends StatelessWidget {
   final String nombre;
   final int cantidadIngredientes;
+  final FileImage fileImage;
 
-  RecetaItem({this.nombre, this.cantidadIngredientes});
+  RecetaItem({this.nombre, this.cantidadIngredientes, this.fileImage});
 
   @override
   Widget build(BuildContext context) {

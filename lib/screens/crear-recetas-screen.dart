@@ -1,14 +1,33 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:async';
 
-class CrearRecetasScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class CrearRecetasScreen extends StatefulWidget {
   CrearRecetasScreen({Key key}) : super(key: key);
 
+  @override
+  _CrearRecetasScreenState createState() => _CrearRecetasScreenState();
+}
+
+class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
   final _formKey = GlobalKey<FormState>();
+  File _image;
+  bool _imagenGaleria = true;
 
-  void _saveForm() {
-    final isValid = _formKey.currentState.validate();
+  //Elegir una imagen de la galeria o tomar una foto
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(
+      source: _imagenGaleria ? ImageSource.gallery : ImageSource.camera,
+      maxHeight: 1000,
+      maxWidth: 1000,
+      imageQuality: 100,
+    );
 
-    _formKey.currentState.save();
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
@@ -23,14 +42,64 @@ class CrearRecetasScreen extends StatelessWidget {
               nombre: 'Nombre',
               vacioText: 'el nombre',
               hintText: 'Empada rellena de arroz con salsa de cactus',
+              lineas: 2,
             ),
             Divider(),
-            CustomTextFormField(
-              nombre: 'Imagen',
-              vacioText: 'una imagen',
-              hintText: 'mi-bella-receta.jpg',
+            Center(
+              child: _image == null
+                  ? Text('No image selected.')
+                  : Image.file(_image),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: FloatingActionButton(
+                      onPressed: () async {
+                        setState(() {
+                          _imagenGaleria = false;
+                        });
+                        await getImage();
+                      },
+                      tooltip: 'Pick Image',
+                      child: Icon(Icons.add_a_photo),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: FloatingActionButton(
+                      onPressed: () async {
+                        setState(() {
+                          _imagenGaleria = true;
+                        });
+                        await getImage();
+                      },
+                      tooltip: 'Pick Image',
+                      child: Icon(Icons.add_photo_alternate),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Divider(),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
+              child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  'Guardar',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -38,18 +107,21 @@ class CrearRecetasScreen extends StatelessWidget {
   }
 }
 
+//TextFormField que se repetia, asi que solo se piden los valores que cambian.
 class CustomTextFormField extends StatelessWidget {
   final String nombre;
   final String hintText;
   final String vacioText;
+  final int lineas;
 
-  CustomTextFormField({this.nombre, this.hintText, this.vacioText});
+  CustomTextFormField(
+      {this.nombre, this.hintText, this.vacioText, this.lineas});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(fontSize: 20),
-      maxLines: 2,
+      maxLines: lineas,
       decoration: InputDecoration(
         labelText: nombre,
         hintText: 'Ejemplo: $hintText',
