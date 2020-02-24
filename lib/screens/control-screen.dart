@@ -11,6 +11,7 @@ class ControlScreen extends StatefulWidget {
 }
 
 class ControlScreenState extends State<ControlScreen> {
+  //Lista de pantallas en el navbar
   List<Widget> _widgetOption = [
     ListaComprasScreen(
       key: PageStorageKey('Lista de Compras'),
@@ -25,6 +26,8 @@ class ControlScreenState extends State<ControlScreen> {
       key: PageStorageKey('Compras anteriores'),
     ),
   ];
+
+  PageStorageBucket bucket = PageStorageBucket();
 
   int _selectedIndex = 0;
 
@@ -63,7 +66,10 @@ class ControlScreenState extends State<ControlScreen> {
           selectedOptionText(),
         ),
       ),
-      body: _widgetOption.elementAt(_selectedIndex),
+      body: PageStorage(
+        child: _widgetOption[_selectedIndex],
+        bucket: bucket,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(

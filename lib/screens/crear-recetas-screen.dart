@@ -19,24 +19,47 @@ class CrearRecetasScreen extends StatelessWidget {
         key: _formKey,
         child: ListView(
           children: <Widget>[
-            TextFormField(
-              style: TextStyle(fontSize: 20),
-              maxLines: 2,
-              decoration: InputDecoration(
-                labelText: 'Nombre',
-                hintText:
-                    'Ejemplo: Arroz suizo con sal lunar y salsa de cactus.',
-              ),
-              onFieldSubmitted: (value) {
-                if (value.isEmpty) {
-                  return 'Te falta el nombre.';
-                }
-                return null;
-              },
+            CustomTextFormField(
+              nombre: 'Nombre',
+              vacioText: 'el nombre',
+              hintText: 'Empada rellena de arroz con salsa de cactus',
             ),
+            Divider(),
+            CustomTextFormField(
+              nombre: 'Imagen',
+              vacioText: 'una imagen',
+              hintText: 'mi-bella-receta.jpg',
+            ),
+            Divider(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomTextFormField extends StatelessWidget {
+  final String nombre;
+  final String hintText;
+  final String vacioText;
+
+  CustomTextFormField({this.nombre, this.hintText, this.vacioText});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: TextStyle(fontSize: 20),
+      maxLines: 2,
+      decoration: InputDecoration(
+        labelText: nombre,
+        hintText: 'Ejemplo: $hintText',
+      ),
+      onFieldSubmitted: (value) {
+        if (value.isEmpty) {
+          return 'Te falta $vacioText.';
+        }
+        return null;
+      },
     );
   }
 }
