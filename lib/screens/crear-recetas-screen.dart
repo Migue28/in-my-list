@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../providers/recetas.dart';
+
 class CrearRecetasScreen extends StatefulWidget {
   CrearRecetasScreen({Key key}) : super(key: key);
 
@@ -15,13 +17,41 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
   final _formKey = GlobalKey<FormState>();
   File _image;
   bool _imagenGaleria = true;
+  List<String> _ingredientes = [];
+  TextEditingController _ingredientesText = new TextEditingController();
+
+  //Lista de ingredientes para renderizar
+  Widget getIngredientes(List<String> ingredientes) {
+    return new Wrap(
+      children: ingredientes
+          .map(
+            (item) => Dismissible(
+              key: ValueKey(item),
+              onDismissed: (direction) {
+                _ingredientes.removeWhere((element) => element.contains(item));
+              },
+              child: Card(
+                child: ListTile(
+                  title: Text(
+                    item,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  trailing: Icon(Icons.clear),
+                  onTap: () {},
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
 
   //Elegir una imagen de la galeria o tomar una foto
   Future getImage() async {
     var image = await ImagePicker.pickImage(
       source: _imagenGaleria ? ImageSource.gallery : ImageSource.camera,
-      maxHeight: 1000,
-      maxWidth: 1000,
+      maxHeight: 500,
+      maxWidth: 500,
       imageQuality: 100,
     );
 
@@ -83,6 +113,31 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
                   ),
                 ],
               ),
+            ),
+            Divider(),
+            getIngredientes(_ingredientes),
+            TextFormField(
+              controller: _ingredientesText,
+              style: TextStyle(fontSize: 20),
+              maxLines: 1,
+              decoration: InputDecoration(
+                labelText: 'Ingredientes',
+                hintText: 'Ejemplo: Cebolla, Arroz...',
+              ),
+              onFieldSubmitted: (value) {
+                setState(() {
+                  _ingredientes.add(value.toString());
+
+                  _ingredientesText.clear();
+                });
+              },
+            ),
+            Divider(),
+            CustomTextFormField(
+              nombre: 'Preparación',
+              hintText: 'Primero agrega un pizca de sal en el arroz...',
+              lineas: 5,
+              vacioText: 'la preparación',
             ),
             Divider(),
             Container(
