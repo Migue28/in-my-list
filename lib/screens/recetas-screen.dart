@@ -17,13 +17,20 @@ class _RecetasScreenState extends State<RecetasScreen> {
   Widget build(BuildContext context) {
     final recetasData = Provider.of<Recetas>(context, listen: false);
 
-    return ListView.builder(
-      itemCount: recetasData.recetas.length,
-      itemBuilder: (context, i) => RecetaItem(
-        nombre: recetasData.recetas[i].nombre,
-        cantidadIngredientes:
-            recetasData.cantidadIngredientes(recetasData.recetas[i].id),
-      ),
-    );
+    return recetasData.recetas.isEmpty
+        ? Center(
+            child: Text(
+              'No hay ninguna receta aún.',
+              style: TextStyle(fontSize: 20),
+            ),
+          )
+        : ListView.builder(
+            itemCount: recetasData.recetas.length,
+            itemBuilder: (context, i) => RecetaItem(
+              nombre: recetasData.recetas[i].nombre,
+              cantidadIngredientes:
+                  recetasData.cantidadIngredientes(recetasData.recetas[i].id),
+            ),
+          );
   }
 }

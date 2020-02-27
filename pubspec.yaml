@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   provider: ^4.0.2
   image_picker: ^0.6.3+4
+  flutter_launcher_icons: ^0.7.4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -29,7 +30,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
 
+flutter_icons:
+  image_path: "assets/icon/aphee logo.png"
+  android: true 
+  ios: true
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

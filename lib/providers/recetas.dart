@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 class Ingrediente {
   @required
   String nombre;
-  @required
-  double cantidad;
+  // @required
+  // double cantidad;
 
-  Ingrediente({this.nombre, this.cantidad});
+  Ingrediente({
+    this.nombre,
+    /* this.cantidad */
+  });
 }
 
 class Receta {
@@ -29,23 +32,7 @@ class Receta {
 }
 
 class Recetas with ChangeNotifier {
-  List<Receta> _recetas = [
-    Receta(
-      id: 'ap',
-      nombre: 'Arroz con pollo',
-      ingredientes: [
-        Ingrediente(nombre: 'Arroz', cantidad: 2),
-        Ingrediente(nombre: 'Pollo', cantidad: 1),
-      ],
-    ),
-    Receta(
-      id: 'pa',
-      nombre: 'Pollo asado',
-      ingredientes: [],
-      procedimiento: '',
-      imagen: '',
-    ),
-  ];
+  List<Receta> _recetas = [];
 
   //retorna una copia de _recetas
   List<Receta> get recetas {
@@ -57,7 +44,6 @@ class Recetas with ChangeNotifier {
 
   //retorna la cantidad de ingredientes de cada receta
   int cantidadIngredientes(String id) {
-    
     int cantidad = 0;
     int index;
 
@@ -70,5 +56,18 @@ class Recetas with ChangeNotifier {
     cantidad = _recetas.elementAt(index).ingredientes.length;
 
     return cantidad;
+  }
+
+  Future<void> addReceta(Receta receta) async{
+    _recetas.add(
+      Receta(
+        id: DateTime.now().toIso8601String(),
+        imagen: receta.imagen,
+        nombre: receta.nombre,
+        ingredientes: receta.ingredientes,
+        procedimiento: receta.procedimiento,
+      ),
+    );
+    notifyListeners();
   }
 }

@@ -61,15 +61,13 @@ class ControlScreenState extends State<ControlScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          selectedOptionText(),
-        ),
-        actions: <Widget>[
-          if (_widgetOption[_selectedIndex] == _widgetOption[2])
-            Icon(Icons.save)
-        ],
-      ),
+      appBar: (_widgetOption[_selectedIndex] == _widgetOption[2])
+          ? null
+          : AppBar(
+              title: Text(
+                selectedOptionText(),
+              ),
+            ),
       body: PageStorage(
         child: _widgetOption[_selectedIndex],
         bucket: bucket,
