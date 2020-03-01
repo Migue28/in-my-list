@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +30,7 @@ class _RecetasScreenState extends State<RecetasScreen> {
             itemCount: recetasData.recetas.length,
             itemBuilder: (context, i) => RecetaItem(
               nombre: recetasData.recetas[i].nombre,
+              fileImage: File(recetasData.recetas[i].imagen),
               cantidadIngredientes:
                   recetasData.cantidadIngredientes(recetasData.recetas[i].id),
             ),

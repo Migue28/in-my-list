@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class RecetaItem extends StatelessWidget {
   final String nombre;
   final int cantidadIngredientes;
-  final FileImage fileImage;
+  final File fileImage;
 
   RecetaItem({this.nombre, this.cantidadIngredientes, this.fileImage});
 
@@ -18,7 +20,9 @@ class RecetaItem extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(8),
         child: ListTile(
-          leading: CircleAvatar(),
+          leading: CircleAvatar(
+            child: Image.file(fileImage),
+          ),
           title: Text(nombre),
           subtitle: Text('Ingredientes: $cantidadIngredientes'),
           trailing: Icon(Icons.expand_more),
