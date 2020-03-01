@@ -28,12 +28,13 @@ class _RecetasScreenState extends State<RecetasScreen> {
           )
         : ListView.builder(
             itemCount: recetasData.recetas.length,
-            itemBuilder: (context, i) => RecetaItem(
-              nombre: recetasData.recetas[i].nombre,
-              fileImage: File(recetasData.recetas[i].imagen),
-              cantidadIngredientes:
-                  recetasData.cantidadIngredientes(recetasData.recetas[i].id),
-            ),
-          );
+            itemBuilder: (context, i) {
+              return RecetaItem(
+                nombre: recetasData.recetas[i].nombre,
+                fileImage: File(recetasData.recetas[i].imagen),
+                cantidadIngredientes:
+                    recetasData.cantidadIngredientes(recetasData.recetas[i].id),
+              );
+            });
   }
 }

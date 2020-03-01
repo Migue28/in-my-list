@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 import '../providers/recetas.dart';
-import '../widgets/photo-item.dart';
 
 class CrearRecetasScreen extends StatefulWidget {
   CrearRecetasScreen({Key key}) : super(key: key);
@@ -15,10 +18,8 @@ class CrearRecetasScreen extends StatefulWidget {
 
 class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
   final _formKey = GlobalKey<FormState>();
-  File _image;
   List<Ingrediente> _ingredientes = [];
   TextEditingController _ingredientesText = new TextEditingController();
-  FocusNode _imageNode = FocusNode();
   FocusNode _ingredientesNode = FocusNode();
   var _receta = Receta(
     id: null,
@@ -27,6 +28,45 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
     ingredientes: [],
     procedimiento: '',
   );
+
+  File _image;
+  bool _imagenGaleria = false;
+
+  //Elegir una imagen de la galeria o tomar una foto
+  Future getImage() async {
+    var directory;
+    var path;
+    var fileName;
+    String localPath;
+
+    File image = await ImagePicker.pickImage(
+      source: _imagenGaleria ? ImageSource.gallery : ImageSource.camera,
+      imageQuality: 50,
+    );
+
+    if (image == null) {
+      return;
+    }
+    //Conseguir la direccion local de la imagen
+    try {
+      directory = await getExternalStorageDirectory();
+      path = directory.path;
+      fileName = p.basename(image.path);
+      localPath = '$path/$fileName';
+      File newImage = await image.copy(localPath);
+    } catch (error) {}
+
+    _receta = Receta(
+      nombre: _receta.nombre,
+      imagen: localPath,
+      ingredientes: _receta.ingredientes,
+      procedimiento: _receta.procedimiento,
+    );
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   //Lista de ingredientes para renderizar
   Widget getIngredientes(List<Ingrediente> ingredientes) {
@@ -71,7 +111,6 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Crear receta'),
@@ -98,7 +137,7 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
                     hintText:
                         'Ejemplo: Empanada rellena de arroz con salsa de cactus',
                   ),
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   onSaved: (newValue) {
                     _receta = Receta(
                       nombre: newValue,
@@ -111,12 +150,66 @@ class _CrearRecetasScreenState extends State<CrearRecetasScreen> {
                     if (value.isEmpty) {
                       return 'Te falta el nombre';
                     }
-                    FocusScope.of(context).requestFocus(_imageNode);
                     return null;
                   },
                 ),
-                Divider(), 
-                Photo(_image, _imageNode),
+                Divider(),
+
+                Center(
+                  child: _image == null
+                      ? Text(
+                          'No ha elegido ninguna imagen.',
+                          style: TextStyle(fontSize: 18),
+                        )
+                      : Container(
+                          width: 350,
+                          height: 350,
+                          child: Image.file(
+                            _image,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                ),
+                //Elegir si foto o imagen de galeria
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: FloatingActionButton(
+                          onPressed: () async {
+                            setState(
+                              () {
+                                _imagenGaleria = false;
+                              },
+                            );
+                            await getImage();
+                          },
+                          tooltip: 'Pick Image',
+                          child: Icon(Icons.add_a_photo),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: FloatingActionButton(
+                          onPressed: () async {
+                            setState(
+                              () {
+                                _imagenGaleria = true;
+                              },
+                            );
+                            await getImage();
+                          },
+                          tooltip: 'Pick Image',
+                          child: Icon(Icons.add_photo_alternate),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 Divider(),
                 //Renderizar los ingredientes ingresados
                 getIngredientes(_ingredientes),

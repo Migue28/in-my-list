@@ -7,21 +7,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 class Photo extends StatefulWidget {
-  final File _image;
-  final FocusNode _imageNode;
-
-  Photo(this._image, this._imageNode);
-
   @override
-  _PhotoState createState() => _PhotoState(_image, _imageNode);
+  _PhotoState createState() => _PhotoState();
 }
 
 class _PhotoState extends State<Photo> {
   File _image;
   bool _imagenGaleria = false;
-  FocusNode _imageNode;
-
-  _PhotoState(this._image, this._imageNode);
 
   //Elegir una imagen de la galeria o tomar una foto
   Future getImage() async {
@@ -93,7 +85,6 @@ class _PhotoState extends State<Photo> {
                   },
                   tooltip: 'Pick Image',
                   child: Icon(Icons.add_a_photo),
-                  focusNode: _imageNode,
                 ),
               ),
               Padding(
